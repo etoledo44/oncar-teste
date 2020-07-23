@@ -8,14 +8,10 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-
-  
   <title>Veiculos</title>
 </head>
 
 <body>
-  
   <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand">
       Test
@@ -24,9 +20,9 @@
   <div class="container">
     <div class="row">
       <div class="input-group mt-3">
-        <input class="form-control" type="search" id="example-search-input" placeholder="Buscar por marca">
+        <input class="form-control" type="search" id="marca" id="example-search-input" placeholder="Buscar por marca">
         <span class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">
+          <button class="btn btn-outline-secondary" type="button" onclick="carregarVeiculo($('#marca').val())">
             <i class="fa fa-search"></i>
           </button>
           <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target=".modal">
@@ -44,18 +40,8 @@
             </div>
             <div class="card-body">
               <div class="list-group">
-                <ul class="list-group">
-                  <% response.map(responses => { %>
-                    
-                    <li class="list-group-item list-group-item-action">
-                      <div class="d-flex justify-content-between">
-                        <div class="d-flex justify-content-between">
-                          <input type="hidden" id="id-automovel" value="<%=responses.id%>">
-                          <a id="veiculo"  type="button" onclick="carregarUnico($('#id-automovel').val())"><h4><%= responses.marca %></h3> </a>
-                      </div>
-                      </div>
-                    </li>
-                    <% }) %>
+                <ul class="list-group" id="list-group">
+
                 </ul>
               <!-- Modal -->
           </div>
@@ -137,9 +123,6 @@
       </div>
     </div>
     </div>
-
-    
-
   </div>
   </div>
 
@@ -150,9 +133,39 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script>
-    function carregarVeiculo(marca = ""){
-      $()
+
+    async function carregarVeiculo(marca = ""){
+      console.log(marca)
+      await $.ajax({
+        url: `http://localhost:3333/veiculos/search?marca=${marca.trim()}`,
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: ({dados: dados}) => {
+          let veiculosCarregados = ""
+
+          veiculosCarregados = dados.map(dado=>{
+            return (
+            `<li class="list-group-item list-group-item-action">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
+                  <input type="hidden" id="id-automovel" value="${dado.id}">
+                  <a id="veiculo"  type="button" onclick="carregarUnico(${dado.id})"><h4>${dado.veiculo}</h3> <p>${dado.marca}</p> </a>
+              </div>
+              </div>
+            </li>`)
+          })
+          $('#list-group').append(veiculosCarregados)
+
+        },
+        error: erro => {
+          alert('Veiculo não encontrado!')
+          console.error(erro)
+        }
+      })
     }
+
+    $(()=> carregarVeiculo())
     
     async function carregarUnico(id){
 

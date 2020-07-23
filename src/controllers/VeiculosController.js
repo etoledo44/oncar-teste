@@ -4,7 +4,6 @@ module.exports = {
     async index(req, res){
         try {
             const response = await knex.from('automoveis').select('*')
-            console.log(response)
             return res.status(200).render('veiculos', {response})
             if(response == null){
                 return res.status(404).send({mensagem: 'Nenhum veiculo encontrado!'})
@@ -14,7 +13,6 @@ module.exports = {
         }
     },
     async store(req, res){
-        console.log('*** req.body ',req.body)
         const {veiculo, marca, ano, descricao} = req.body
         const dados = {
             veiculo,
@@ -42,7 +40,6 @@ module.exports = {
             if(response == ''){
                 return res.status(404).send({mensagem: "Esse carro não se encontra mais aqui!"})
             }
-            console.log(response)
             return res.send({dados: response})
             
         } catch (error) {
@@ -68,7 +65,6 @@ module.exports = {
             }
             return res.status(200).send({mensagem: 'Veiculo atualizado!'})
         } catch (error) {
-            console.log(error)
             return res.status(500).send({mensagem: 'Falha interna!', error})
         }
     },
@@ -92,7 +88,7 @@ module.exports = {
                 return res.status(404).send({mensagem: 'Não encontrado!'})
             }
 
-            return res.status(200).send(response)
+            return res.status(200).send({dados:response})
         } catch (error) {
             return res.status(501).send({mensagem: 'Falha interna', error})
         }
