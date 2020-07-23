@@ -1,0 +1,51 @@
+module.exports = {
+  development: {
+    client: 'mysql2',
+    connection: {
+        host: 'localhost',
+        user: 'superuser',
+        password: 'superuser',
+        database: 'oncar'
+    },
+    seeds:{
+      directory: 'src/database/seeds'
+    },
+    migrations: {
+      directory: 'src/database/migrations'
+    }
+  },
+
+  staging: {
+    client: 'mysql2',
+    connection: {
+        host: 'localhost',
+        user: 'superuser',
+        password: 'superuser',
+        database: 'oncar'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  },
+
+  production: {
+    client: 'mysql2',
+    connection: {
+        host: 'localhost',
+        user: 'superuser',
+        password: 'superuser',
+        database: 'oncar'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  }
+};
