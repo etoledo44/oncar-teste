@@ -114,7 +114,12 @@
                 <p id="descricao-automovel"></p> 
               </div>
               <input type="hidden" name="id-hidden" id="id-hidden" value="">
-              
+            </div>
+            <div class="row">
+              <div class="col ">
+                <span class="badge badge-secondary mb-3" id="badge-vendido">Vendido</span>
+              </div>
+              <input type="hidden" name="id-hidden" id="id-hidden" value="">
             </div>
             <button class="btn btn-secondary" type="button" data-toggle="modal" data-target=".modal" onclick="carregarEditarVeiculo($('#id-hidden').val())">Editar</button>
             <button class="btn btn-danger" type="button" onclick="deletarVeiculo($('#id-hidden').val())">Excluir</button>
@@ -179,6 +184,7 @@
           $('#ano-automovel').html(dados[0].ano)
           $('#descricao-automovel').html(dados[0].descricao)
           $('#id-hidden').val(dados[0].id)
+          $('#badge-vendido').html(dados[0].vendido ? "Vendido" : "A venda")
         },
         error: erro => {
           alert('Ocorreu um erro ao carregar veiculo')
@@ -310,6 +316,7 @@
         }
       })
     }
+  
   </script>
 </body>
 
