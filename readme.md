@@ -23,8 +23,11 @@ npx knex migrate:latest
 ```
 npx knex seed:run   
 ```
-
-6. Acesse `localhost:3333/veiculos` para abrir o sistema no navegador.
+6. Execute o comando abaixo para iniciar a aplicação:
+```
+npm start
+```
+7. Acesse `localhost:3333/veiculos` para abrir o sistema no navegador.
 
 ___
 ## Backend
@@ -44,7 +47,9 @@ Foram utilizadas algumas ferramentas para auxiliar no desenvolvimento, citadas l
 O projeto conta com pacotes essencias para o desenvolvimento produtivo, como:
 - Express: Pacote responsável por fazer o roteamento da aplicação;
 - Knex: Query Builder, um construtor de query, a escrita é feita em JavaScript, e o Knex faz a conversão para sql query;
-- Cors: Pacote que abre a aplicação para ser acessada por qualquer um.
+- Cors: Pacote que abre a aplicação para ser acessada por qualquer um;
+- Nodemon: Essa biblioteca permite que a aplicação tenha hot reload;
+- Dotenv: Pacote responsável pelas variaveis de ambiente da aplicação.
 
 ___
 ## Frontend
