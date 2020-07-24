@@ -3,8 +3,8 @@ const knex = require('../database/connection')
 module.exports = {
     async index(req, res){
         try {
-            const response = await knex.from('automoveis').select('*')
-            return res.status(200).send({response})
+            const response = await knex.from('automoveis').select('*').orderBy('veiculo', 'asc')
+            return res.status(200).send({dados: response})
             if(response == null){
                 return res.status(404).send({mensagem: 'Nenhum veiculo encontrado!'})
             }
@@ -89,7 +89,7 @@ module.exports = {
         }
     },
     async search(req, res){
-        const {marca} = req.query
+        const {marca} = req.params
 
         try {
             const response = await knex('automoveis').where('marca', 'like', `%${marca}%`)

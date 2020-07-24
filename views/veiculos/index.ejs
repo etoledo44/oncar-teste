@@ -14,7 +14,7 @@
 <body>
   <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand">
-      Test
+      Test - OnCar
     </a>
   </nav>
   <div class="container">
@@ -22,7 +22,7 @@
       <div class="input-group mt-3">
         <input class="form-control" type="search" id="marca" id="example-search-input" placeholder="Buscar por marca">
         <span class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" onclick="carregarVeiculo($('#marca').val())">
+          <button class="btn btn-outline-secondary" type="submit" id="buscar" onclick="procurarVeiculo($('#marca').val())">
             <i class="fa fa-search"></i>
           </button>
           <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target=".modal">
@@ -132,45 +132,42 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script>
 
-    async function carregarVeiculo(marca = ""){
-      console.log(marca)
+  <!-- Scripts necessário para o funcionamento da página -->
+  <script>
+    $(document).ready(carregarVeiculos())
+
+    async function carregarVeiculos(){
       await $.ajax({
-        url: `http://localhost:3333/veiculos/search?marca=${marca}`,
+        url: "http://localhost:3333/veiculos",
         type: 'GET',
         dataType: 'json',
         contentType: 'application/json',
-        success: ({dados: dados}) => {
+        success: ({dados:dados}) => {
           let veiculosCarregados = ""
 
           veiculosCarregados = dados.map(dado=>{
-            return (
-            `<li class="list-group-item list-group-item-action">
-              <div class="d-flex justify-content-between">
-                <div class="d-flex justify-content-between">
-                  <input type="hidden" id="id-automovel" value="${dado.id}">
-                  <a id="veiculo"  type="button" onclick="carregarUnico(${dado.id})"><h4>${dado.veiculo}</h3> <p>${dado.marca}</p> </a>
-              </div>
-              </div>
-            </li>`)
-          })
-          $('#list-group').append(veiculosCarregados)
+          return (
+          `<li class="list-group-item list-group-item-action">
+          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between">
+          <input type="hidden" id="id-automovel" value="${dado.id}">
+          <a id="veiculo"  type="button" onclick="carregarUnico(${dado.id})"><h4>${dado.veiculo}</h3> <p>${dado.marca}</p> </a>
+          </div>
+          </div>
+          </li>`)
+        })
+
+        $('#list-group').append(veiculosCarregados)
 
         },
         error: erro => {
           alert('Veiculo não encontrado!')
-          console.error(erro)
         }
       })
     }
 
-    $(()=> carregarVeiculo())
-    
     async function carregarUnico(id){
-
-      $('#spinner-detalhes').removeAttr('hidden')
-
       await $.ajax({
         url: `http://localhost:3333/veiculos/${id}`,
         type: 'GET',
@@ -187,11 +184,9 @@
           alert('Ocorreu um erro ao carregar veiculo')
         }
       })
-
     }
 
     async function criarVeiculo(){
-      
       var dados = {
         veiculo: $('#form-veiculo').val(),
         marca: $('#form-marca').val(),
@@ -207,15 +202,12 @@
         data: JSON.stringify(dados) ,
         success: data => {
           alert('deu certo', data)
-          console.log('*** resposta do sucesso', data)
           location.reload()
         },
         error: erro=>{
-          console.log('*** resposta do erro', erro)
           alert('deu erro',erro)
         }
       })
-
     }
 
     async function carregarEditarVeiculo(id){
@@ -281,6 +273,42 @@
           
         })
       }
+    }
+
+    async function procurarVeiculo(marca){
+      $('#list-group').html('')
+      if(!marca){
+        await carregarVeiculos()
+      }
+      
+      $.ajax({
+        url: `http://localhost:3333/veiculos/search/${marca}`,
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: ({dados: dados})=>{
+          let veiculosCarregados = ""
+          
+          veiculosCarregados = dados.map(dado => {
+            return(
+              `<li class="list-group-item list-group-item-action">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
+                  <input type="hidden" id="id-automovel" value="${dado.id}">
+                  <a id="veiculo"  type="button" onclick="carregarUnico(${dado.id})"><h4>${dado.veiculo}</h3> <p>${dado.marca}</p> </a>
+              </div>
+              </div>
+            </li>`
+            )
+          })
+
+          $('#list-group').append(veiculosCarregados)
+
+        },
+        error: erro => {
+          alert('Não foi possível encontrar esse veiculo')
+        }
+      })
     }
   </script>
 </body>
