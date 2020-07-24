@@ -207,11 +207,11 @@
         contentType: 'application/json',
         data: JSON.stringify(dados) ,
         success: data => {
-          alert('deu certo', data)
+          alert('Veiculo criado', data)
           location.reload()
         },
         error: erro=>{
-          alert('deu erro',erro)
+          alert('Erro ao criar veiculo',erro)
         }
       })
     }
