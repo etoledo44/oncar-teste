@@ -3,7 +3,7 @@
 Teste realizado para confirmar interesse na vaga de fullstack node.js. Teste prático em forma de desafio prosposto pela OnCar.
 ___
 
-## Instruções para executação do código
+## Instruções para execução do código
 1. Clone ou baixe o arquivo do repositório;
 2. Em seu ambiente de desenvolvimento execute:
 ```
