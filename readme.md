@@ -27,7 +27,7 @@ npx knex seed:run
 ```
 npm start
 ```
-7. Acesse `localhost:3333/veiculos` para abrir o sistema no navegador.
+7. Acesse `localhost:3333` para abrir o sistema no navegador.
 
 ___
 ## Backend
