@@ -32,7 +32,28 @@ exports.seed = function(knex) {
           ano: 1969, 
           descricao: 'Para competir com o Chevrolet Camaro, este bólido foi criado para atender às normas da Nascar. Com apenas 1400 carros construídos entre 69 e 70, este modelo é uma raridade. Para competir nas provas norte-americanas, o motor V-8 de 375 cavalos de potência cumpre o que promete',
           vendido: true 
-        },        
+        },  
+        {
+          veiculo: 'Megatron',
+          marca: 'Decepticons',
+          ano: 1888,
+          descricao: 'um mal robo/carro',
+          vendido: false,
+        },      
+        {
+          veiculo: 'Starscream',
+          marca: 'Decepticons',
+          ano: 1888,
+          descricao: 'um mal robo/carro',
+          vendido: false,
+        },      
+        {
+          veiculo: 'Shockwave',
+          marca: 'Decepticons',
+          ano: 1888,
+          descricao: 'um mal robo/carro',
+          vendido: false,
+        },      
       ]);
     });
 };
